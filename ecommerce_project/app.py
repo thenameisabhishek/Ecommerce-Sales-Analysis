@@ -1,12 +1,15 @@
+import os
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 
 st.set_page_config(page_title="E-commerce Sales Dashboard", layout="wide", page_icon="🛒")
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 @st.cache_data
 def load_data():
-    df = pd.read_csv("superstore_sales.csv", encoding="latin1")
+    df = pd.read_csv(os.path.join(BASE_DIR, "superstore_sales.csv"), encoding="latin1")
     df.columns = [c.strip().replace(" ", "_").replace("-", "_") for c in df.columns]
     df["Order_Date"] = pd.to_datetime(df["Order_Date"], format="%m/%d/%Y")
     df["Order_Year"] = df["Order_Date"].dt.year
